@@ -16,5 +16,11 @@ const io = socketIo(SOCKETPORT, {
     }
 });
 
-io.on("connection", socket => console.info("#-> Connection triggered with: ", socket.id));
+io.on("connection", socket => {
+    console.info("#-> Connection triggered with: ", socket.id)
+    socket.on("send", (message, target)=>{
+        console.log({message, target})
+        socket.to(target).emit("receive", message);
+    })
+});
 
