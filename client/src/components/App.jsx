@@ -6,13 +6,14 @@ import Modal from './Modal';
 function App() {
   const [isConnected, setIsConnected] = useState(socket.connected);
   const [targetConnection, setTargetConnection] = useState("");
+  const [connectionId, setConnectionId] = useState("");
 
+  console.log(connectionId);
   
   useEffect(() => {
     const onConnect = ()=>{
       setIsConnected(true);
-      console.log(targetConnection);
-      console.log("socket id:", socket.id);
+      setConnectionId(socket.id);
     }
 
     const onDisconnect = ()=>{
@@ -27,13 +28,13 @@ function App() {
       socket.off("disconnect", onDisconnect);
     }
 
-  }, [])
+  }, []);
   
 
   return (
-    <div className="min-h-[80%] min-w-[500px] bg-slate-100 rounded-md flex relative overflow-hidden">
-      <Modal title={"Connection setup"} message={"setup connetion channel to chat."} setTargetConnection={setTargetConnection}/>
+    <div className="h-[80%] w-[500px] bg-slate-100 rounded-md flex relative overflow-hidden">
       <Chat targetConnection={targetConnection}/>
+      <Modal title={"Connection setup"} message={"setup connection channel to start text."} connectionId={connectionId} setTargetConnection={setTargetConnection}/>
     </div>
   )
 }
